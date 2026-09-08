@@ -1,0 +1,12 @@
+[package]
+name = "reinante"
+version = "0.1.0"
+edition = "2021"
+description = "Constructor que se reescribe mientras el evaluador se mueve."
+license = "MIT"
+publish = false
+repository = "https://github.com/PascualMacana/reinante"
+
+[[bin]]
+name = "reinante"
+path = "src/main.rs"
