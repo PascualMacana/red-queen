@@ -1,37 +1,37 @@
 # reinante
 
-A small Rust program that rewrites a piece of its own source while **the target itself keeps moving**.
+Un programa chico en Rust que reescribe un pedazo de su propia fuente mientras **el objetivo mismo se sigue moviendo**.
 
-It is not a language model and it does not spread by itself. You point it at a folder; it only writes there.
+No es un modelo de lenguaje y no se copia solo. Le señalás una carpeta; sólo escribe ahí.
 
-It is a sibling of [mejorante](https://github.com/PascualMacana/mejorante). Darwin still proposes (random mutants, same prefix language). The Red Queen is the world: when the brain matches, the scoring function mutates, and the fit is gone. You have to keep running to stay in the same place.
+Es hermano de [mejorante](https://github.com/PascualMacana/mejorante). Darwin sigue proponiendo (mutantes al azar, el mismo lenguaje prefijo). La Reina Roja es el mundo: cuando el cerebro encaja, la función de puntaje muta y el encaje se cae. Hay que seguir corriendo para quedarse en el mismo lugar.
 
-The part that evolves is a tiny math expression called the **brain**. It tries to match another expression, the **world**, on `x = -5 … 5`. Score is the sum of squared errors (**sse**). Lower is better. Zero is a catch — and then the world hops.
+Lo que evoluciona es una expresión matemática chica, el **cerebro**. Intenta encajar otra expresión, el **mundo**, en `x = -5 … 5`. El puntaje es la suma de errores al cuadrado (**sse**). Más bajo es mejor. Cero es un alcance — y entonces el mundo salta.
 
 ```
-parent    brain  0                              world  x² + 3x + 5     sse  4323
+padre     cerebro  0                              mundo  x² + 3x + 5     sse  4323
   │ evolve
   │ catch
   ▼
-          brain  (+ (+ (* 3 x) (* x x)) 5)      world  x² + 3x + 5     sse  0
-  │ the world mutates
+          cerebro  (+ (+ (* 3 x) (* x x)) 5)      mundo  x² + 3x + 5     sse  0
+  │ el mundo muta
   ▼
-child     brain  (+ (+ (* 3 x) (* x x)) 5)      world  (moved)         sse  > 0
+hijo      cerebro  (+ (+ (* 3 x) (* x x)) 5)      mundo  (se movió)      sse  > 0
 ```
 
-The first world is the same polynomial the siblings freeze. After a catch it is not.
+El primer mundo es el mismo polinomio que los hermanos congelan. Después de un alcance, ya no.
 
-![A cell that fills, then empties when the world hops](cell.svg)
+![Una célula que se llena y se vacía cuando el mundo salta](cell.svg)
 
-Watch it happen in the terminal. One cell, filling as the error drops. When it catches, the target curve moves and the body drains. `dish` defaults to seed 7, which catches the opening world in a few steps, then has to chase again.
+Míralo en la terminal. Una célula que se llena mientras baja el error. Cuando alcanza, la curva objetivo se mueve y el cuerpo se vacía. `dish` usa por defecto la seed 7, que alcanza el mundo de apertura en pocos pasos y después tiene que volver a perseguir.
 
 ```bash
 cargo run -- dish
 ```
 
-## Run it
+## Cómo correrlo
 
-You need [Rust](https://rustup.rs/).
+Hace falta [Rust](https://rustup.rs/).
 
 ```bash
 cargo build --release
@@ -40,57 +40,57 @@ cargo build --release
 ./hijo/target/debug/reinante identity
 ```
 
-`identity` prints generation, brain, world, flees, and score.  
-`evolve --spawn ./hijo --build` searches, lets the world hop when caught, and writes a child crate that inherits both brain and world.
+`identity` imprime generación, cerebro, mundo, huidas y puntaje.  
+`evolve --spawn ./hijo --build` busca, deja que el mundo huya al ser alcanzado, y escribe un crate hijo que hereda cerebro y mundo.
 
-## Commands
+## Comandos
 
 ```
-reinante identity              generation, lineage, brain, world, flees, score
-reinante eval [x]              brain vs the current world
-reinante evolve                search; the world hops on a catch
-                 --steps N      search steps (default 120)
-                 --lambda L     mutants per step (default 30)
-                 --seed S       reproducible RNG
-                 --spawn <dir>  write a child with the ending brain and world
-                 --build        compile that child
-                 --force        overwrite a previous child
-                 --write        update src/main.rs in this project
-reinante dish                  animate a cell that fills and drains
-                 --steps N      search steps (default 120)
-                 --lambda L     mutants per step (default 30)
-                 --seed S       default 7 (the reliable demo)
-                 --delay MS     ms per frame (default 80)
-reinante spawn <dir>           copy the current genome (no search)
-reinante genome                print the embedded sources
+reinante identity              generación, linaje, cerebro, mundo, huidas, puntaje
+reinante eval [x]              cerebro vs el mundo actual
+reinante evolve                busca; el mundo huye al ser alcanzado
+                 --steps N      pasos de búsqueda (default 120)
+                 --lambda L     mutantes por paso (default 30)
+                 --seed S       rng reproducible
+                 --spawn <dir>  hijo con el cerebro y el mundo del final
+                 --build        compila a ese hijo
+                 --force        pisa un hijo anterior
+                 --write        pisa src/main.rs de este proyecto
+reinante dish                  anima una célula que se llena y se vacía
+                 --steps N      pasos de búsqueda (default 120)
+                 --lambda L     mutantes por paso (default 30)
+                 --seed S       default 7 (la demo fiable)
+                 --delay MS     ms por cuadro (default 80)
+reinante spawn <dir>           copia el genoma actual (sin buscar)
+reinante genome                imprime las fuentes embebidas
 ```
 
-`--spawn` leaves this program alone and writes a selected child.  
-`--write` edits this project's `src/main.rs`; rebuild so the binary picks up the new brain and world.
+`--spawn` deja este programa en paz y escribe un hijo elegido.  
+`--write` edita el `src/main.rs` de este proyecto; compilá de nuevo para que el binario nazca con el cerebro y el mundo nuevos.
 
-## How it works
+## Cómo funciona
 
-The brain and the world both live as prefix expressions in `src/main.rs`: `x`, small integers, `+`, `-`, `*`.
+El cerebro y el mundo viven como expresiones prefijas en `src/main.rs`: `x`, enteros chicos, `+`, `-`, `*`.
 
-1. Parse the current brain and world into trees.
-2. Each step makes several random brain mutants. Keep the lowest `sse + 0.01 × size` against the **current** world.
-3. After a perfect fit, algebraic identities may shrink the brain.
-4. Then the world mutates. If the brain is no longer perfect, that hop counts as a flee.
-5. With `--spawn`, write a full Cargo project whose source contains that brain **and** that world.
+1. Parsea el cerebro y el mundo actuales a árboles.
+2. Cada paso arma varios mutantes del cerebro. Se queda con el menor `sse + 0.01 × tamaño` contra el mundo **actual**.
+3. Después de un encaje perfecto, las identidades algebraicas pueden achicar el cerebro.
+4. Entonces el mundo muta. Si el cerebro deja de ser perfecto, esa huida cuenta.
+5. Con `--spawn`, escribe un proyecto Cargo completo cuya fuente contiene ese cerebro **y** ese mundo.
 
-There is no frozen ceiling. A child is born into the world it was chasing, not into `x² + 3x + 5` forever.
+No hay techo congelado. Un hijo nace en el mundo que estaba persiguiendo, no en `x² + 3x + 5` para siempre.
 
-This is not Schmidhuber's Gödel Machine and it is not a proof: there is no certificate. For that, see [demostrante](https://github.com/PascualMacana/demostrante). The siblings freeze the evaluator; this one does not.
+Esto no es la Gödel Machine de Schmidhuber y no es una prueba: no hay certificado. Eso está en [demostrante](https://github.com/PascualMacana/demostrante). Los hermanos congelan el evaluador; este no.
 
-## Safety
+## Seguridad
 
-- One child per run. No background loops, no network.
-- It will not write over your home directory, `/`, `/usr`, `/etc`, or the directory you are standing in.
-- `--force` only deletes a folder that already looks like a `reinante` project.
+- Un hijo por corrida. No hay bucles en segundo plano ni red.
+- No escribe sobre el directorio home, `/`, `/usr`, `/etc`, ni el directorio en el que estás parado.
+- `--force` sólo borra una carpeta que ya parece un proyecto `reinante`.
 
-## Related
+## Relacionados
 
-[replicante](https://github.com/PascualMacana/replicante) copies itself.  
-[mejorante](https://github.com/PascualMacana/mejorante) copies itself and also tries to improve, against a frozen target.  
-[demostrante](https://github.com/PascualMacana/demostrante) only writes a claimed improvement when a checkable proof says so.  
-[cruzante](https://github.com/PascualMacana/cruzante) keeps the river crossings that were still legal.
+[replicante](https://github.com/PascualMacana/replicante) se copia.  
+[mejorante](https://github.com/PascualMacana/mejorante) se copia y además intenta mejorar, contra un objetivo congelado.  
+[demostrante](https://github.com/PascualMacana/demostrante) sólo escribe una mejora afirmada si hay una prueba verificable.  
+[cruzante](https://github.com/PascualMacana/cruzante) se queda con los cruces del río que todavía eran legales.
