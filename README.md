@@ -92,4 +92,5 @@ This is not Schmidhuber's Gödel Machine and it is not a proof: there is no cert
 
 [replicante](https://github.com/PascualMacana/replicante) copies itself.  
 [mejorante](https://github.com/PascualMacana/mejorante) copies itself and also tries to improve, against a frozen target.  
-[demostrante](https://github.com/PascualMacana/demostrante) only writes a claimed improvement when a checkable proof says so.
+[demostrante](https://github.com/PascualMacana/demostrante) only writes a claimed improvement when a checkable proof says so.  
+[cruzante](https://github.com/PascualMacana/cruzante) keeps the river crossings that were still legal.
