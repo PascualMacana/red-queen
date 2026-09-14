@@ -5,7 +5,7 @@ edition = "2021"
 description = "A constructor that rewrites itself while the evaluator keeps moving."
 license = "MIT"
 publish = false
-repository = "https://github.com/PascualMacana/reinante"
+repository = "https://github.com/PascualMacana/red-queen"
 
 [[bin]]
 name = "reinante"

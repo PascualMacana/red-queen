@@ -4,7 +4,7 @@ A small Rust program that rewrites a piece of its own source while **the target 
 
 It is not a language model and it does not spread by itself. You point it at a folder; it only writes there.
 
-It is a sibling of [mejorante](https://github.com/PascualMacana/mejorante). Darwin still proposes (random mutants, same prefix language). The Red Queen is the world: when the brain matches, the scoring function mutates, and the fit is gone. You have to keep running to stay in the same place.
+It is a sibling of [improver](https://github.com/PascualMacana/improver). Darwin still proposes (random mutants, same prefix language). The Red Queen is the world: when the brain matches, the scoring function mutates, and the fit is gone. You have to keep running to stay in the same place.
 
 The part that evolves is a tiny math expression called the **brain**. It tries to match another expression, the **world**, on `x = -5 … 5`. Score is the sum of squared errors (**sse**). Lower is better. Zero is a catch — and then the world hops.
 
@@ -80,7 +80,7 @@ The brain and the world both live as prefix expressions in `src/main.rs`: `x`, s
 
 There is no frozen ceiling. A child is born into the world it was chasing, not into `x² + 3x + 5` forever.
 
-This is not Schmidhuber's Gödel Machine and it is not a proof: there is no certificate. For that, see [demostrante](https://github.com/PascualMacana/demostrante). The siblings freeze the evaluator; this one does not.
+This is not Schmidhuber's Gödel Machine and it is not a proof: there is no certificate. For that, see [prover](https://github.com/PascualMacana/prover). The siblings freeze the evaluator; this one does not.
 
 ## Safety
 
@@ -90,7 +90,7 @@ This is not Schmidhuber's Gödel Machine and it is not a proof: there is no cert
 
 ## Related
 
-[replicante](https://github.com/PascualMacana/replicante) copies itself.  
-[mejorante](https://github.com/PascualMacana/mejorante) copies itself and also tries to improve, against a frozen target.  
-[demostrante](https://github.com/PascualMacana/demostrante) only writes a claimed improvement when a checkable proof says so.  
-[cruzante](https://github.com/PascualMacana/cruzante) keeps the river crossings that were still legal.
+[replicator](https://github.com/PascualMacana/replicator) copies itself.  
+[improver](https://github.com/PascualMacana/improver) copies itself and also tries to improve, against a frozen target.  
+[prover](https://github.com/PascualMacana/prover) only writes a claimed improvement when a checkable proof says so.  
+[crosser](https://github.com/PascualMacana/crosser) keeps the river crossings that were still legal.
