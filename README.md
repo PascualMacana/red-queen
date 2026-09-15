@@ -93,4 +93,6 @@ This is not Schmidhuber's Gödel Machine and it is not a proof: there is no cert
 [replicator](https://github.com/PascualMacana/replicator) copies itself.  
 [improver](https://github.com/PascualMacana/improver) copies itself and also tries to improve, against a frozen target.  
 [prover](https://github.com/PascualMacana/prover) only writes a claimed improvement when a checkable proof says so.  
-[crosser](https://github.com/PascualMacana/crosser) keeps the river crossings that were still legal.
+[crosser](https://github.com/PascualMacana/crosser) keeps the river crossings that were still legal.  
+[inquirer](https://github.com/PascualMacana/inquirer) keeps the house assignments the clues did not refute.  
+[tide](https://github.com/PascualMacana/tide) keeps searching because the river's rules hop.
