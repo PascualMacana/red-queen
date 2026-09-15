@@ -95,4 +95,6 @@ This is not Schmidhuber's Gödel Machine and it is not a proof: there is no cert
 [prover](https://github.com/PascualMacana/prover) only writes a claimed improvement when a checkable proof says so.  
 [crosser](https://github.com/PascualMacana/crosser) keeps the river crossings that were still legal.  
 [inquirer](https://github.com/PascualMacana/inquirer) keeps the house assignments the clues did not refute.  
-[tide](https://github.com/PascualMacana/tide) keeps searching because the river's rules hop.
+[tide](https://github.com/PascualMacana/tide) keeps searching because the river's rules hop.  
+[sealer](https://github.com/PascualMacana/sealer) only writes a river plan when a proof says it improved.  
+[turn](https://github.com/PascualMacana/turn) keeps searching because the house clues hop.
